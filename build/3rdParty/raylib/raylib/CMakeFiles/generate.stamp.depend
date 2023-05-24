@@ -1,0 +1,19 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Modules/CPack.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Modules/CPackComponent.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Modules/FindOpenGL.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Modules/FindPackageMessage.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Modules/GNUInstallDirs.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Templates/CPackConfig.cmake.in
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/CompileDefinitions.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/GlfwImport.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/InstallConfigurations.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/JoinPaths.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/LibraryConfigurations.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/LibraryPathToLinkerFlags.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/PackConfigurations.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/PopulateConfigVariablesLocally.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/raylib-config-version.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/raylib.pc.in
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/src/CMakeLists.txt

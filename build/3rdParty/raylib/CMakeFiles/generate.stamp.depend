@@ -1,0 +1,13 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Modules/CMakeDependentOption.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Modules/CheckCCompilerFlag.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Modules/CheckCSourceCompiles.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Modules/Internal/CheckCompilerFlag.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.22/Modules/Internal/CheckSourceCompiles.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/CMakeLists.txt
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/CMakeOptions.txt
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/AddIfFlagCompiles.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/BuildOptions.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/CompilerFlags.cmake
+C:/Users/hands/source/repos/MIPT-networked/3rdParty/raylib/cmake/EnumOption.cmake

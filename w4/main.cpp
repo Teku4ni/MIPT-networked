@@ -30,14 +30,15 @@ void on_set_controlled_entity(ENetPacket *packet)
 void on_snapshot(ENetPacket *packet)
 {
   uint16_t eid = invalid_entity;
-  float x = 0.f; float y = 0.f;
-  deserialize_snapshot(packet, eid, x, y);
+  float x = 0.f; float y = 0.f; float radius;
+  deserialize_snapshot(packet, eid, x, y, radius);
   // TODO: Direct adressing, of course!
   for (Entity &e : entities)
     if (e.eid == eid)
     {
       e.x = x;
       e.y = y;
+      e.radius = radius;
     }
 }
 
@@ -144,10 +145,7 @@ int main(int argc, const char **argv)
       ClearBackground(GRAY);
       BeginMode2D(camera);
         for (const Entity &e : entities)
-        {
-          const Rectangle rect = {e.x, e.y, 10.f, 10.f};
-          DrawRectangleRec(rect, GetColor(e.color));
-        }
+          DrawCircle(e.x, e.y, e.radius, GetColor(e.color));
 
       EndMode2D();
     EndDrawing();

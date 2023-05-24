@@ -5,9 +5,13 @@
 #include <stdlib.h>
 #include <vector>
 #include <map>
+#include <cmath>
 
 static std::vector<Entity> entities;
 static std::map<uint16_t, ENetPeer*> controlledMap;
+static std::vector<std::pair<float, float>> aiObjectives;
+static std::vector<bool> collisions;
+static int aiEntitiesNumber = 15;
 
 void on_join(ENetPacket *packet, ENetPeer *peer, ENetHost *host)
 {
@@ -20,13 +24,14 @@ void on_join(ENetPacket *packet, ENetPeer *peer, ENetHost *host)
   for (const Entity &e : entities)
     maxEid = std::max(maxEid, e.eid);
   uint16_t newEid = maxEid + 1;
-  uint32_t color = 0xff000000 +
-                   0x00440000 * (rand() % 5) +
-                   0x00004400 * (rand() % 5) +
-                   0x00000044 * (rand() % 5);
-  float x = (rand() % 4) * 200.f;
-  float y = (rand() % 4) * 200.f;
-  Entity ent = {color, x, y, newEid};
+  uint32_t color = 0x000000ff +
+                   ((rand() % 256) << 8) +
+                   ((rand() % 256) << 16) +
+                   ((rand() % 256) << 24);
+  float x = -350 + (rand() % 700);
+  float y = -350 + (rand() % 700);
+  float radius = 20 + rand() % 20;
+  Entity ent = {color, x, y, radius, newEid};
   entities.push_back(ent);
 
   controlledMap[newEid] = peer;
@@ -52,6 +57,69 @@ void on_state(ENetPacket *packet)
     }
 }
 
+void generate_ai_entities()
+{
+  for (uint16_t i = 0; i < aiEntitiesNumber; ++i)
+  {
+    uint32_t color = 0x000000ff +
+                     ((rand() % 256) << 8) +
+                     ((rand() % 256) << 16) +
+                     ((rand() % 256) << 24);
+    float x = -350 + (rand() % 700);
+    float y = -350 + (rand() % 700);
+    float radius = 20 + rand() % 20;
+    Entity ent = {color, x, y, radius, i};
+
+    entities.push_back(ent);
+    aiObjectives.emplace_back(-350 + (rand() % 700), -350 + (rand() % 700));
+  }
+}
+
+void move_ai_entities()
+{
+  float step = 1.f;
+  for (uint16_t i = 0; i < aiEntitiesNumber; ++i)
+  {
+    float x_distance = aiObjectives[i].first - entities[i].x;
+    float y_distance = aiObjectives[i].second - entities[i].y;
+    float distance = std::sqrt(x_distance * x_distance + y_distance * y_distance);
+    if (distance < step / 2)
+      aiObjectives[i] = {-350 + (rand() % 700), -350 + (rand() % 700)};
+    else
+    {
+      entities[i].x += step * x_distance / distance;
+      entities[i].y += step * y_distance / distance;
+    }
+  }
+}
+
+float dist2(const Entity& a, const Entity& b) 
+{
+  return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
+};
+
+void resolve_collisions()
+{
+  collisions.assign(entities.size(), false);
+
+  for (Entity& e1 : entities)
+  {
+    for (Entity& e2 : entities)
+    {
+      if (e1.radius < e2.radius && dist2(e1, e2) < (e1.radius + e2.radius) * (e1.radius + e2.radius))
+      {
+        e2.radius = std::sqrt(e2.radius * e2.radius + e1.radius * e1.radius / 2.f);
+        collisions[e2.eid] = true;
+
+        e1.x = -350 + (rand() % 700);
+        e1.y = -350 + (rand() % 700);
+        e1.radius /= std::sqrt(2);
+        collisions[e1.eid] = true;
+      }
+    }
+  }
+}
+
 int main(int argc, const char **argv)
 {
   if (enet_initialize() != 0)
@@ -71,6 +139,8 @@ int main(int argc, const char **argv)
     printf("Cannot create ENet server\n");
     return 1;
   }
+
+  generate_ai_entities();
 
   while (true)
   {
@@ -98,21 +168,22 @@ int main(int argc, const char **argv)
         break;
       };
     }
+    move_ai_entities();
+    resolve_collisions();
+
     static int t = 0;
     for (const Entity &e : entities)
       for (size_t i = 0; i < server->peerCount; ++i)
       {
         ENetPeer *peer = &server->peers[i];
-        if (controlledMap[e.eid] != peer)
-          send_snapshot(peer, e.eid, e.x, e.y);
+        if (collisions[e.eid] || controlledMap[e.eid] != peer)
+          send_snapshot(peer, e.eid, e.x, e.y, e.radius);
       }
-    //usleep(400000);
+    Sleep(10);
   }
 
   enet_host_destroy(server);
-
+  
   atexit(enet_deinitialize);
   return 0;
 }
-
-
