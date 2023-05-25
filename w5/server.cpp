@@ -10,7 +10,7 @@
 static std::vector<Entity> entities;
 static std::map<uint16_t, ENetPeer*> controlledMap;
 
-void on_join(ENetPacket *packet, ENetPeer *peer, ENetHost *host)
+void on_join(ENetPacket *packet, ENetPeer *peer, ENetHost *host, uint32_t curTimestamp)
 {
   // send all entities
   for (const Entity &ent : entities)
@@ -26,8 +26,8 @@ void on_join(ENetPacket *packet, ENetPeer *peer, ENetHost *host)
                    0x00004400 * (rand() % 5) +
                    0x00000044 * (rand() % 5);
   float x = (rand() % 4) * 5.f;
-  float y = (rand() % 4) * 5.f;
-  Entity ent = {color, x, y, 0.f, (rand() / RAND_MAX) * 3.141592654f, 0.f, 0.f, newEid};
+  float y = (rand() % 4) * 5.f; 
+  Entity ent = {color, x, y, 0.f, (rand() / RAND_MAX) * 3.141592654f, 0.f, 0.f, newEid, curTimestamp};
   entities.push_back(ent);
 
   controlledMap[newEid] = peer;
@@ -91,7 +91,7 @@ int main(int argc, const char **argv)
         switch (get_packet_type(event.packet))
         {
           case E_CLIENT_TO_SERVER_JOIN:
-            on_join(event.packet, event.peer, server);
+            on_join(event.packet, event.peer, server, curTime);
             break;
           case E_CLIENT_TO_SERVER_INPUT:
             on_input(event.packet);
@@ -114,10 +114,10 @@ int main(int argc, const char **argv)
         ENetPeer *peer = &server->peers[i];
         // skip this here in this implementation
         //if (controlledMap[e.eid] != peer)
-        send_snapshot(peer, e.eid, e.x, e.y, e.ori);
+        send_snapshot(peer, e.eid, e.x, e.y, e.ori, e.timestamp);
       }
     }
-    usleep(100000);
+    Sleep(100);
   }
 
   enet_host_destroy(server);
